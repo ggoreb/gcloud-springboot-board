@@ -6,6 +6,8 @@ import com.example.board.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+  User findByEmail(String email);
+  
   User findByEmailAndPwd(String email, String pwd);
 
 }

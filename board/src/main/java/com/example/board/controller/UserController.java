@@ -36,10 +36,21 @@ public class UserController {
 
   @PostMapping("/signin")
   public String signinPost(@ModelAttribute User user) {
-    User dbUser = userRepository.findByEmailAndPwd(user.getEmail(), user.getPwd());
-    if (dbUser != null) {
-      session.setAttribute("user_info", dbUser);
+    PasswordEncoder pe = new BCryptPasswordEncoder();
+    
+//    User dbUser = userRepository.findByEmailAndPwd(user.getEmail(), user.getPwd());
+//    if (dbUser != null) {
+//      session.setAttribute("user_info", dbUser);
+//    }
+    
+    User dbUser = userRepository.findByEmail(user.getEmail());
+    if(dbUser != null) {
+      //      사용자가 입력한 비번(원본)    DB에 저장된 암호화된 비번(변경)
+      if(pe.matches(user.getPwd(), dbUser.getPwd())) {
+        session.setAttribute("user_info", dbUser);
+      }
     }
+    
     return "redirect:/";
   }
 

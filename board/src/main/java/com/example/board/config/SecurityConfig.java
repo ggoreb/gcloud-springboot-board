@@ -17,6 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests().antMatchers("/**").permitAll();
     http.formLogin().loginPage("/login");
+    http.csrf().disable(); // csrf 기능 무효화
   }
 
   @Override

@@ -3,6 +3,8 @@ package com.example.board.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,7 +50,21 @@ public class UserController {
 
   @PostMapping("/signup")
   public String signupPost(@ModelAttribute User user) {
+    PasswordEncoder pe = new BCryptPasswordEncoder();
+    String pw = pe.encode(user.getPwd());
+    System.out.println(pw);
+    
+    user.setPwd(pw);
+    
     userRepository.save(user);
     return "redirect:/";
   }
 }
+
+
+
+
+
+
+
+
